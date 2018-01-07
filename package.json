@@ -1,0 +1,26 @@
+{
+  "name": "19Bernard",
+  "version": "1.0.0",
+  "description": "19Bernard in 3D",
+  "main": "index.js",
+  "author": "emile",
+  "license": "MIT",
+  "devDependencies": {
+    "babel-preset-env": "^1.6.1",
+    "babel-preset-react": "^6.24.1",
+    "eslint": "^4.14.0",
+    "eslint-config-standard": "^11.0.0-beta.0",
+    "eslint-plugin-import": "^2.8.0",
+    "eslint-plugin-node": "^5.2.1",
+    "eslint-plugin-promise": "^3.6.0",
+    "eslint-plugin-standard": "^3.0.1"
+  },
+  "scripts": {
+    "start": "parcel index.html"
+  },
+  "dependencies": {
+    "global": "^4.3.2",
+    "react": "^16.2.0",
+    "react-dom": "^16.2.0"
+  }
+}
