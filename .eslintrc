@@ -1,21 +1,41 @@
 {
-  "parserOptions": {
-    "ecmaVersion": 6
-  },
-  "extends": [
+  "parser"  : "babel-eslint",
+  "extends" : [
     "eslint:recommended",
-    "standard"
+    "standard",
+    "standard-react"
   ],
-  "env": {
-    "node" : true
+  "plugins": [
+    "babel",
+    "flowtype"
+  ],
+  "env"     : {
+    "browser" : true,
+    "mocha": true
+  },
+  "globals" : {
+    "__DEV__"      : false,
+    "__PROD__"     : false,
+    "__COVERAGE__" : false,
+    "__BASENAME__" : false,
+    "expect" : false,
+    "should" : false,
+    "sinon"  : false,
+    "mockStore": false,
+    "jspm": false,
+    "jsdom": false,
+    "nock": false,
+    "proxyquire": false
   },
   "rules": {
-    "indent": ["error", 2, { "MemberExpression": 1 }],
     "max-len": [2, 120, 2],
     "no-var": 2,
-    "no-console": 0,
+    "no-console": 2,
     "prefer-const": 2,
     "object-curly-spacing": [2, "always"],
-    "newline-per-chained-call": 2
+    "generator-star-spacing": [2, "both"],
+    "react/jsx-no-bind": 0,
+    "flowtype/define-flow-type": 1,
+    "flowtype/use-flow-type": 1
   }
 }
