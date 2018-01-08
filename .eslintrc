@@ -3,11 +3,18 @@
   "extends" : [
     "eslint:recommended",
     "standard",
-    "standard-react"
+    "standard-react",
+    "plugin:react/recommended"
   ],
+  "parserOptions": {
+    "ecmaFeatures": {
+      "jsx": true
+    }
+  },
   "plugins": [
     "babel",
-    "flowtype"
+    "flowtype",
+    "react"
   ],
   "env"     : {
     "browser" : true,
