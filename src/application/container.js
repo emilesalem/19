@@ -14,12 +14,13 @@ const App = props => (
   <div onClick={props.toggleControl}
     onKeyPress={event => onKeyPress(event, props)}
   >
-    <Scene />
+    <Scene store={props.store} />
   </div>
 )
 
-const mapStateToProps = state => ({
-  controlActive: state.camera.controlActive
+const mapStateToProps = (state, ownProps) => ({
+  controlActive: state.camera.controlActive,
+  store: ownProps.store
 })
 
 const mapDispatchToProps = {
@@ -28,7 +29,8 @@ const mapDispatchToProps = {
 }
 
 App.propTypes = {
-  toggleControl: PropTypes.func
+  toggleControl: PropTypes.func,
+  store: PropTypes.object
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(App)

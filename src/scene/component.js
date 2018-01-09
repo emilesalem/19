@@ -2,12 +2,13 @@ import React from 'react'
 import React3 from 'react-three-renderer'
 import * as THREE from 'three'
 import Camera from './camera/container'
-
+import PropTypes from 'react-proptypes'
 export default class Scene extends React.Component {
   constructor (props, context) {
     super(props, context)
     this.sunPosition = new THREE.Vector3(10, 10, -5)
     this.sunTarget = new THREE.Vector3(-3, 0, 3)
+    this.store = props.store
   }
 
   render () {
@@ -34,7 +35,7 @@ export default class Scene extends React.Component {
           lookAt={this.sunTarget}
         />
 
-        <Camera aspect={width / height} />
+        <Camera aspect={width / height} store={this.store} />
 
         <mesh
           position={new THREE.Vector3(0, 0, 0)}
@@ -68,4 +69,8 @@ export default class Scene extends React.Component {
       </scene>
     </React3>)
   }
+}
+
+Scene.propTypes = {
+  store: PropTypes.object
 }

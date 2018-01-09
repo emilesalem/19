@@ -61,6 +61,7 @@ export default handleActions({
   TOGGLE_CAMERA_CONTROL: state => ({
     ...state,
     controlActive: !state.controlActive
+
   }),
   CAMERA_FORWARD: state => ({
     ...state,

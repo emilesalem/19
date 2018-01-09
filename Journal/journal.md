@@ -1,15 +1,11 @@
-# 06/01/2018 - DAY 1
-
-## Setup
-trying to get the simple example from https://github.com/toxicFork/react-three-renderer/wiki/Usage to run
+# 06/01/2018 - DAY 1  
+ - trying to get the simple example from https://github.com/toxicFork/react-three-renderer/wiki/Usage to run
    
-  
 **Problem 1**  
 react-three-renderer does not support react Fiber [see issue 197](https://github.com/toxicFork/react-three-renderer/issues/197).  
 Reverting to React 15.
 
 **Problem 2**   
-spent 2 hours on this so far:  
 *__Uncaught Error: Cannot find module 'babel-runtime/core-js/object/freeze'__
     at newRequire (e139c04ad11a1947c415ac53776ec422.js:sourcemap:33)
     at localRequire (e139c04ad11a1947c415ac53776ec422.js:sourcemap:48)
@@ -42,3 +38,19 @@ Removed "transform-runtime" babel plugin, error goes away, magnificient green cu
     at InternalComponent.mountComponent (19bernard.js:90886)*
 
 this might help: https://github.com/toxicFork/react-three-renderer/issues/140
+
+almost... passing the store down from the root app component to the camera removes the error...
+... but causes weirder incomprehensible error 
+*Uncaught TypeError: Cannot read property '0F9410C3-70EE-41C1-B87A-E0DF7EE4ECC8' of undefined
+    at serialize (19bernard.js:58749)
+    at Mesh.toJSON (19bernard.js:58759)
+    at derez (<anonymous>:2:5451)
+    at derez (<anonymous>:2:6072)
+    at derez (<anonymous>:2:6072)
+    at derez (<anonymous>:2:6072)
+    at derez (<anonymous>:2:6072)
+    at derez (<anonymous>:2:6072)
+    at derez (<anonymous>:2:6072)*
+
+    I should probably not trigger a reRender of React3 on every store change.
+    Lets find another way to listen to user inputs.
