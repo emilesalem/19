@@ -52,5 +52,11 @@ almost... passing the store down from the root app component to the camera remov
     at derez (<anonymous>:2:6072)
     at derez (<anonymous>:2:6072)*
 
-    I should probably not trigger a reRender of React3 on every store change.
-    Lets find another way to listen to user inputs.
+I should probably not trigger a reRender of React3 on every store change.
+Lets find another way to listen to user inputs.
+
+# 10/01/2018 - DAY 3
+ - Found out previous error was not the problem (side error that doesnt break the app, caused by redux-devtools)  
+   Real error was caused by 'mapTo' observable function used instead of 'map' (TODO: investigate what mapTo does)
+ - **MILESTONE**: succeeded first navigation in 3D world
+

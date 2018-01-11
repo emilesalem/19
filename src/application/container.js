@@ -5,22 +5,21 @@ import { toggleControl, reactToKey } from './index'
 import PropTypes from 'react-proptypes'
 
 const onKeyPress = (event, props) => {
-  if (props.controlActive) {
-    props.reactToKey(event.key)
-  }
+  // if (props.controlActive) {
+  props.reactToKey(event.key)
+  // }
 }
 
 const App = props => (
   <div onClick={props.toggleControl}
     onKeyPress={event => onKeyPress(event, props)}
-  >
+    tabIndex='0'>
     <Scene store={props.store} />
   </div>
 )
 
-const mapStateToProps = (state, ownProps) => ({
-  controlActive: state.camera.controlActive,
-  store: ownProps.store
+const mapStateToProps = (state) => ({
+  controlActive: state.camera.controlActive
 })
 
 const mapDispatchToProps = {
