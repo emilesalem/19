@@ -60,3 +60,6 @@ Lets find another way to listen to user inputs.
    Real error was caused by 'mapTo' observable function used instead of 'map' (TODO: investigate what mapTo does)
  - **MILESTONE**: succeeded first navigation in 3D world
 
+
+# 13/01/2018 - DAY 4
+ - freshening up on linear algebra for camera strafing. [wtf is a quaterion?](https://en.wikipedia.org/wiki/Quaternion)

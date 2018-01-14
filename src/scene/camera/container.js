@@ -1,9 +1,13 @@
 import CameraComponent from './component'
 import { connect } from 'react-redux'
+import { stopMoving } from './index'
 
 const mapStateToProps = (state) => ({
-  position: state.camera.position,
-  lookAt: state.camera.lookAt
+  movement: state.camera.movement
 })
 
-export default connect(mapStateToProps)(CameraComponent)
+const mapDispatchToProps = () => ({
+  stabilize: stopMoving
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(CameraComponent)
