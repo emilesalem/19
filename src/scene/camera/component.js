@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'react-proptypes'
-import { Vector2, Vector3, Matrix3 } from 'three'
+import { Vector2, Vector3, Matrix3, Sphere } from 'three'
 
 export default class Camera extends React.Component {
   constructor (props) {
@@ -8,10 +8,14 @@ export default class Camera extends React.Component {
     this.lookAt = new Vector3(0, 0, 0)
     this.position = new Vector3(0, 0, 10)
     this.mainCamera = null
+    this.visualSphere = new Sphere(this.position, 10)
+  }
+
+  positionOnVisualSphere (lookAt) {
+
   }
 
   adjustCamera (movement) {
-    console.log(`movement: ${JSON.stringify(movement)}`)
     const cameraTransform = new Matrix3().getInverse(new Matrix3().setFromMatrix4(this.mainCamera.matrixWorldInverse))
 
     if (movement.direction) {
@@ -19,11 +23,24 @@ export default class Camera extends React.Component {
       stepIn.setComponent(1, this.position.y)
       this.position = this.position.clone().add(stepIn)
       this.lookAt = this.lookAt.clone().add(stepIn)
-    }
-    if (movement.orientation) {
-      const newLookat = new Vector3(this.lookAt.x + movement.orientation.x,
-        this.lookAt.y + movement.orientation.y, this.lookAt.z)
-      this.lookAt = newLookat
+    } else if (movement.orientation) {
+      const baseLookAt = this.lookAt.clone().applyMatrix3(new Matrix3().getInverse(cameraTransform)).normalize()
+
+      const phi = Math.atan(baseLookAt.x / baseLookAt.z)
+      const theta = Math.acos(baseLookAt.y)
+
+      const deltaPhi = movement.orientation.y * this.props.aspect * (2 * Math.PI) / 3600
+      const deltaTeta = movement.orientation.x * this.props.aspect * (2 * Math.PI) / 3600
+      const newTheta = theta + deltaTeta
+      const newPhi = phi + deltaPhi
+
+      const newX = -Math.cos(newTheta)
+      const newY = -Math.sin(newTheta) * Math.sin(newPhi)
+      const newZ = -Math.cos(newPhi) * Math.sin(newTheta)
+
+      const newBaseLookAt = new Vector3(newX, newY, newZ)
+      this.lookAt = newBaseLookAt.applyMatrix3(cameraTransform).multiplyScalar(1000)
+      console.log(`lookAt: ${JSON.stringify(this.lookAt)}`)
     }
   }
 

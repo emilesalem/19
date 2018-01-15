@@ -62,4 +62,10 @@ Lets find another way to listen to user inputs.
 
 
 # 13/01/2018 - DAY 4
- - freshening up on linear algebra for camera strafing. [wtf is a quaterion?](https://en.wikipedia.org/wiki/Quaternion)
+ - freshening up on linear algebra for camera strafing. [wtf is a quaternion?](https://en.wikipedia.org/wiki/Quaternion)
+
+# 14/01/2018 - DAY 5
+ - Discovered that Chrome on linux wont capture onMouseMove events, switched to Firefox [see react issue #11984](https://github.com/facebook/react/issues/11984)
+ - Firefox is cooking my processor, Chromium seems better at using the GPU, switching to Chromium
+ - working on looking around. Trying to project mouse deltaX and deltaY on sphere encircling camera, [using this ref](https://www.scratchapixel.com/lessons/mathematics-physics-for-computer-graphics/geometry/spherical-coordinates-and-trigonometric-functions).
+ - almost there, still having trouble changing basis

@@ -11,9 +11,7 @@ const onKeyPress = (event, props) => {
 }
 
 const onMouseMove = (event, props) => {
-  console.log('mouse move')
   if (props.controlActive) {
-    console.log('moving view')
     props.reactToMouse(event)
   }
   event.stopPropagation()
