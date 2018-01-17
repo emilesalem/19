@@ -1,5 +1,5 @@
 import { createAction, handleActions } from 'redux-actions'
-import { toggleControl, REACT_TO_KEY, REACT_TO_MOUSE } from '../../application'
+import { toggleControl, REACT_TO_KEY } from '../../application'
 import { Vector3, Vector2 } from 'three'
 
 const defaultState = {

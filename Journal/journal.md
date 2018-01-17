@@ -69,3 +69,7 @@ Lets find another way to listen to user inputs.
  - Firefox is cooking my processor, Chromium seems better at using the GPU, switching to Chromium
  - working on looking around. Trying to project mouse deltaX and deltaY on sphere encircling camera, [using this ref](https://www.scratchapixel.com/lessons/mathematics-physics-for-computer-graphics/geometry/spherical-coordinates-and-trigonometric-functions).
  - almost there, still having trouble changing basis
+
+# 16/01/2018 - DAY 6
+ - Done it! And without trigonometry. Just added mouse deltaX and deltaY to camera lookAt vector in camera reference and placed lookAt back in world reference.
+

@@ -1,46 +1,31 @@
 import React from 'react'
 import PropTypes from 'react-proptypes'
-import { Vector2, Vector3, Matrix3, Sphere } from 'three'
+import { Vector3, Matrix3, Sphere } from 'three'
 
 export default class Camera extends React.Component {
   constructor (props) {
     super(props)
-    this.lookAt = new Vector3(0, 0, 0)
+    this.lookAt = new Vector3(0, 0, -10)
     this.position = new Vector3(0, 0, 10)
     this.mainCamera = null
     this.visualSphere = new Sphere(this.position, 10)
   }
 
-  positionOnVisualSphere (lookAt) {
-
-  }
-
   adjustCamera (movement) {
-    const cameraTransform = new Matrix3().getInverse(new Matrix3().setFromMatrix4(this.mainCamera.matrixWorldInverse))
-
+    const cameraInverseTransform = new Matrix3().setFromMatrix4(this.mainCamera.matrixWorldInverse)
+    const cameraTransform = new Matrix3().getInverse(cameraInverseTransform)
     if (movement.direction) {
       const stepIn = movement.direction.applyMatrix3(cameraTransform)
       stepIn.setComponent(1, this.position.y)
       this.position = this.position.clone().add(stepIn)
       this.lookAt = this.lookAt.clone().add(stepIn)
-    } else if (movement.orientation) {
-      const baseLookAt = this.lookAt.clone().applyMatrix3(new Matrix3().getInverse(cameraTransform)).normalize()
-
-      const phi = Math.atan(baseLookAt.x / baseLookAt.z)
-      const theta = Math.acos(baseLookAt.y)
-
-      const deltaPhi = movement.orientation.y * this.props.aspect * (2 * Math.PI) / 3600
-      const deltaTeta = movement.orientation.x * this.props.aspect * (2 * Math.PI) / 3600
-      const newTheta = theta + deltaTeta
-      const newPhi = phi + deltaPhi
-
-      const newX = -Math.cos(newTheta)
-      const newY = -Math.sin(newTheta) * Math.sin(newPhi)
-      const newZ = -Math.cos(newPhi) * Math.sin(newTheta)
-
-      const newBaseLookAt = new Vector3(newX, newY, newZ)
-      this.lookAt = newBaseLookAt.applyMatrix3(cameraTransform).multiplyScalar(1000)
-      console.log(`lookAt: ${JSON.stringify(this.lookAt)}`)
+    }
+    if (movement.orientation) {
+      const baseLookAt = this.lookAt.clone().applyMatrix3(cameraInverseTransform).normalize()
+      const baseDelta = new Vector3(movement.orientation.x, movement.orientation.y, 0)
+        .multiplyScalar(this.props.aspect / 360)
+      const newBaseLookAt = baseLookAt.add(baseDelta)
+      this.lookAt = newBaseLookAt.multiplyScalar(100).applyMatrix3(cameraTransform)
     }
   }
 
