@@ -105,6 +105,25 @@ export default handleActions({
       }
     }
   },
+  CAMERA_FLY_UP: state => {
+    console.log('flying up')
+    return {
+      ...state,
+      movement: {
+        direction: new Vector3(0, 1, 0),
+        orientation: 0
+      }
+    }
+  },
+  CAMERA_FLY_DOWN: state => {
+    return {
+      ...state,
+      movement: {
+        direction: new Vector3(0, -1, 0),
+        orientation: 0
+      }
+    }
+  },
   REACT_TO_KEY: (state, action) => {
     return state
   },

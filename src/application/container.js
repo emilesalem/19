@@ -1,5 +1,5 @@
 import React from 'react'
-import Scene from '../scene/component'
+import Canvas from '../canvas/component'
 import { connect } from 'react-redux'
 import { toggleControl, reactToKey, reactToMouse } from './index'
 import PropTypes from 'react-proptypes'
@@ -23,7 +23,7 @@ const App = props => (
     onKeyPress={event => onKeyPress(event, props)}
     onMouseMove={event => onMouseMove(event, props)}
     tabIndex='0'>
-    <Scene store={props.store} />
+    <Canvas store={props.store} />
   </div>
 )
 

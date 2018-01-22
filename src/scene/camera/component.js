@@ -1,14 +1,13 @@
 import React from 'react'
 import PropTypes from 'react-proptypes'
-import { Vector3, Matrix3, Sphere } from 'three'
+import { Vector3, Matrix3 } from 'three'
 
 export default class Camera extends React.Component {
   constructor (props) {
     super(props)
     this.lookAt = new Vector3(0, 0, -10)
-    this.position = new Vector3(0, 0, 10)
+    this.position = new Vector3(0, 0, 300)
     this.mainCamera = null
-    this.visualSphere = new Sphere(this.position, 10)
   }
 
   adjustCamera (movement) {
@@ -30,6 +29,7 @@ export default class Camera extends React.Component {
   }
 
   componentDidUpdate () {
+    console.log('camera did update')
     if (this.props.movement) {
       this.props.stabilize()
     }
