@@ -2,14 +2,9 @@ import React from 'react'
 import { Vector3 } from 'three'
 import Camera from './camera/container'
 import PropTypes from 'react-proptypes'
-export default class Scene extends React.Component {
-  constructor (props, context) {
-    super(props, context)
-    setInterval(() => {
-      this.props.addPrism()
-    }, 100)
-  }
+import Prismotron from './prismotron/component'
 
+export default class Scene extends React.Component {
   render () {
     const width = window.innerWidth
     const height = window.innerHeight
@@ -27,13 +22,11 @@ export default class Scene extends React.Component {
           lookAt={new Vector3(-3, 0, 3)}
         />
         <Camera aspect={width / height} store={this.props.store} />
-        {this.props.initialObjects}
+        <Prismotron head={new Vector3(-10, 10, 0)} />
       </scene>)
   }
 }
 
 Scene.propTypes = {
-  store: PropTypes.object,
-  initialObjects: PropTypes.array,
-  addPrism: PropTypes.func
+  store: PropTypes.object
 }

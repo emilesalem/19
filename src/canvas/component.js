@@ -1,7 +1,7 @@
 import React from 'react'
 import React3 from 'react-three-renderer'
 import PropTypes from 'react-proptypes'
-import Scene from '../scene/container'
+import Scene from '../scene/component'
 
 export default function Canvas (props) {
   return (
