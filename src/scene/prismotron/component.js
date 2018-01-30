@@ -14,28 +14,34 @@ export default class Prismotron extends React.Component {
       head: props.head,
       prisms: []
     }
-    setInterval(() => {
-      this.addPrism()
-    }, 1)
+    this.lastMove = performance.now()
   }
 
-  addPrism () {
-    const head = this.state.head.clone()
-    const prisms = this.state.prisms
-    head.z += PRISM_DEPTH
-    if (head.z >= PRISMOTRON_CUBIC_SIZE) {
-      head.z = -PRISMOTRON_CUBIC_SIZE
-      head.y += PRISM_HEIGHT
+  componentDidMount () {
+    requestAnimationFrame(now => this.addPrism(now))
+  }
+
+  addPrism (now) {
+    if (now - this.lastMove > 1) {
+      this.lastMove = now
+      const head = this.state.head.clone()
+      const prisms = this.state.prisms
+      head.z += PRISM_DEPTH
+      if (head.z >= PRISMOTRON_CUBIC_SIZE) {
+        head.z = -PRISMOTRON_CUBIC_SIZE
+        head.y += PRISM_HEIGHT
+      }
+      if (head.y >= PRISMOTRON_CUBIC_SIZE) {
+        head.y = -PRISMOTRON_CUBIC_SIZE
+        head.x += PRISM_WIDTH
+      }
+      prisms.push({ position: head })
+      this.setState({
+        head,
+        prisms
+      })
     }
-    if (head.y >= PRISMOTRON_CUBIC_SIZE) {
-      head.y = -PRISMOTRON_CUBIC_SIZE
-      head.x += PRISM_WIDTH
-    }
-    prisms.push({ position: head })
-    this.setState({
-      head,
-      prisms
-    })
+    requestAnimationFrame(now => this.addPrism(now))
   }
 
   render () {

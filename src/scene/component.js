@@ -11,9 +11,7 @@ export default class Scene extends React.Component {
 
     return (
       <scene>
-        <ambientLight
-          color={0x666666}
-        />
+        <ambientLight color={0x666666} />
         <directionalLight
           name='sun'
           position={new Vector3(10, 10, -5)}

@@ -29,7 +29,6 @@ export default class Camera extends React.Component {
   }
 
   componentDidUpdate () {
-    console.log('camera did update')
     if (this.props.movement) {
       this.props.stabilize()
     }
