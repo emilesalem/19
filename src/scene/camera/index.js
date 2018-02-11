@@ -34,36 +34,42 @@ export const keyEpic = (action$, store) => action$.ofType(REACT_TO_KEY)
     switch (keyPressed) {
       case 'w':
         result = tryMoving({
+          steps: CAMERA_STEPS,
           direction: FORWARD,
           position: store.getState().camera.cameraAt.position,
           transform: store.getState().camera.cameraAt.transform })
         break
       case 's':
         result = tryMoving({
+          steps: CAMERA_STEPS,
           direction: BACKWARD,
           position: store.getState().camera.cameraAt.position,
           transform: store.getState().camera.cameraAt.transform })
         break
       case 'a':
         result = tryMoving({
+          steps: CAMERA_STEPS,
           direction: LEFT,
           position: store.getState().camera.cameraAt.position,
           transform: store.getState().camera.cameraAt.transform })
         break
       case 'd':
         result = tryMoving({
+          steps: CAMERA_STEPS,
           direction: RIGHT,
           position: store.getState().camera.cameraAt.position,
           transform: store.getState().camera.cameraAt.transform })
         break
       case 'Shift':
         result = tryMoving({
+          steps: CAMERA_STEPS,
           direction: UP,
           position: store.getState().camera.cameraAt.position,
           transform: store.getState().camera.cameraAt.transform })
         break
       case 'Ctrl':
         result = tryMoving({
+          steps: CAMERA_STEPS,
           direction: DOWN,
           position: store.getState().camera.cameraAt.position,
           transform: store.getState().camera.cameraAt.transform })
@@ -119,7 +125,7 @@ export default handleActions({
     return {
       ...state,
       movement: null,
-      cameraAt: action.payload
+      cameraAt: action.payload || state.cameraAt
     }
   }
 

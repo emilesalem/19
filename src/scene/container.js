@@ -1,15 +1,12 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { Vector3 } from 'three'
+import { Vector3, Quaternion } from 'three'
 import Camera from './camera/container'
 import PropTypes from 'react-proptypes'
-import Wall from './wall/component'
+import Wall from './wall/container'
 
 class Scene extends React.Component {
   render () {
-    const {
-      sceneObjects
-    } = this.props
     const width = window.innerWidth
     const height = window.innerHeight
 
@@ -24,27 +21,31 @@ class Scene extends React.Component {
           lookAt={new Vector3(-3, 0, 3)}
         />
         <Camera aspect={width / height} store={this.props.store} />
-        {sceneObjects.map((sceneObject, k) => (
-          <Wall key={k}
-            width={sceneObject.width}
-            height={sceneObject.height}
-            depth={sceneObject.depth}
-            rotation={sceneObject.rotation}
-            position={sceneObject.position} />
-        ))}
+        <Wall
+          store={this.props.store}
+          width={20}
+          height={100}
+          depth={2000}
+          rotation={new Quaternion()}
+          position={new Vector3(60, 0, -10)} />
+        <Wall
+          store={this.props.store}
+          width={20}
+          height={100}
+          depth={2000}
+          rotation={new Quaternion()}
+          position={new Vector3(-60, 0, -10)} />
       </scene>)
   }
 }
 
 Scene.propTypes = {
-  store: PropTypes.object,
-  sceneObjects: PropTypes.array
+  store: PropTypes.object
 }
 
 function mapStateToProps (state, ownProps) {
   return {
-    store: ownProps.store,
-    sceneObjects: state.scene.sceneObjects
+    store: ownProps.store
   }
 }
 
