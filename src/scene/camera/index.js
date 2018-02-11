@@ -19,7 +19,7 @@ const RIGHT = new Vector3(1, 0, 0)
 const UP = new Vector3(0, 1, 0)
 const DOWN = new Vector3(0, -1, 0)
 
-export const CAMERA_STEPS = 2
+export const CAMERA_STEPS = 0.5
 
 export const MOVE_CAMERA = 'MOVE_CAMERA'
 export const STOP_MOVEMENT = 'STOP_MOVEMENT'

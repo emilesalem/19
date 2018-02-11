@@ -23,7 +23,7 @@ class Wall extends React.Component {
       <group>
         <mesh ref={mesh => { this.mesh = mesh }} position={position} quaternion={rotation}>
           <boxGeometry ref={geo => { this.geometry = geo }} width={width} height={height} depth={depth} />
-          <meshPhongMaterial color={0x00ff00} transparent light fog opacity={0.1} />
+          <meshPhongMaterial />
         </mesh>
       </group>
     )

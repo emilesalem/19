@@ -6,14 +6,14 @@ export default class Camera extends React.Component {
   constructor (props) {
     super(props)
     this.lookAt = new Vector3(0, 0, -10)
-    this.position = new Vector3(0, 0, 300)
+    this.position = this.props.position
     this.mainCamera = null
   }
 
   adjustCamera (movement) {
     if (movement.direction) {
       const stepIn = movement.direction.clone().applyQuaternion(this.mainCamera.quaternion)
-      stepIn.setComponent(1, this.position.y)
+      stepIn.setComponent(1, 0)
       this.position = this.position.clone().add(stepIn)
       this.lookAt = this.lookAt.clone().add(stepIn)
     }
@@ -71,6 +71,7 @@ export default class Camera extends React.Component {
 }
 
 Camera.propTypes = {
+  position: PropTypes.object,
   movement: PropTypes.object,
   aspect: PropTypes.number,
   stabilize: PropTypes.func
