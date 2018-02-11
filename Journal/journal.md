@@ -73,3 +73,10 @@ Lets find another way to listen to user inputs.
 # 16/01/2018 - DAY 6
  - Done it! And without trigonometry. Just added mouse deltaX and deltaY to camera lookAt vector in camera reference and placed lookAt back in world reference.
 
+# 20/01/2018 - DAY 7
+ - playing around, drawing stuff, added self contained animation: Prismotron, a component which changes its state every milliseconds by addinng children shapes.
+ - 
+# 10/02/2018 DAY 8
+ - working on camera collision: added a wall and testing for collision. 
+ - decided to stop fearing quaternions. Three.js was designed to make use of them and they rock, apparently.
+ - well. Quaternions do rock. They solved all my problems. All of them.

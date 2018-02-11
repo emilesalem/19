@@ -2,10 +2,10 @@ import React from 'react'
 import PropTypes from 'react-proptypes'
 import * as THREE from 'three'
 
-const PRISM_WIDTH = 20
-const PRISM_HEIGHT = 20
-const PRISM_DEPTH = 40
-const PRISMOTRON_CUBIC_SIZE = 150
+const PRISM_WIDTH = 5
+const PRISM_HEIGHT = 5
+const PRISM_DEPTH = 10
+const PRISMOTRON_CUBIC_SIZE = 50
 
 export default class Prismotron extends React.Component {
   constructor (props) {

@@ -1,52 +1,72 @@
 import { createAction, handleActions } from 'redux-actions'
 import { toggleControl, REACT_TO_KEY } from '../../application'
+import { tryMoving } from '../../scene'
 import { Vector3, Vector2 } from 'three'
 
 const defaultState = {
   controlActive: false,
-  movement: null
+  movement: null,
+  cameraAt: {
+    position: null,
+    transform: null
+  }
 }
 
-export const CAMERA_STEPS = 5
+const FORWARD = new Vector3(0, 0, -1)
+const BACKWARD = new Vector3(0, 0, 1)
+const LEFT = new Vector3(-1, 0, 0)
+const RIGHT = new Vector3(1, 0, 0)
+const UP = new Vector3(0, 1, 0)
+const DOWN = new Vector3(0, -1, 0)
 
-export const CAMERA_FORWARD = 'CAMERA_FORWARD'
-export const CAMERA_BACKWARD = 'CAMERA_BACKWARD'
-export const CAMERA_STRAFE_LEFT = 'CAMERA_STRAFE_LEFT'
-export const CAMERA_STRAFE_RIGHT = 'CAMERA_STRAFE_RIGHT'
-export const CAMERA_FLY_UP = 'CAMERA_FLY_UP'
-export const CAMERA_FLY_DOWN = 'CAMERA_FLY_DOWN'
+export const CAMERA_STEPS = 2
+
+export const MOVE_CAMERA = 'MOVE_CAMERA'
 export const STOP_MOVEMENT = 'STOP_MOVEMENT'
 
-export const cameraForward = createAction(CAMERA_FORWARD)
-export const cameraBackward = createAction(CAMERA_BACKWARD)
-export const cameraStrafeLeft = createAction(CAMERA_STRAFE_LEFT)
-export const cameraStrafeRight = createAction(CAMERA_STRAFE_RIGHT)
-export const cameraFlyUp = createAction(CAMERA_FLY_UP)
-export const cameraFlyDown = createAction(CAMERA_FLY_DOWN)
+export const moveCamera = createAction(MOVE_CAMERA)
 export const stopMoving = createAction(STOP_MOVEMENT)
 
-export const keyEpic = action$ => action$.ofType(REACT_TO_KEY)
+export const keyEpic = (action$, store) => action$.ofType(REACT_TO_KEY)
   .map(action => {
     const keyPressed = action.payload
     let result = null
     switch (keyPressed) {
       case 'w':
-        result = cameraForward()
+        result = tryMoving({
+          direction: FORWARD,
+          position: store.getState().camera.cameraAt.position,
+          transform: store.getState().camera.cameraAt.transform })
         break
       case 's':
-        result = cameraBackward()
+        result = tryMoving({
+          direction: BACKWARD,
+          position: store.getState().camera.cameraAt.position,
+          transform: store.getState().camera.cameraAt.transform })
         break
       case 'a':
-        result = cameraStrafeLeft()
+        result = tryMoving({
+          direction: LEFT,
+          position: store.getState().camera.cameraAt.position,
+          transform: store.getState().camera.cameraAt.transform })
         break
       case 'd':
-        result = cameraStrafeRight()
+        result = tryMoving({
+          direction: RIGHT,
+          position: store.getState().camera.cameraAt.position,
+          transform: store.getState().camera.cameraAt.transform })
         break
       case 'Shift':
-        result = cameraFlyUp()
+        result = tryMoving({
+          direction: UP,
+          position: store.getState().camera.cameraAt.position,
+          transform: store.getState().camera.cameraAt.transform })
         break
       case 'Ctrl':
-        result = cameraFlyDown()
+        result = tryMoving({
+          direction: DOWN,
+          position: store.getState().camera.cameraAt.position,
+          transform: store.getState().camera.cameraAt.transform })
         break
       case 'Escape':
         result = toggleControl()
@@ -69,58 +89,12 @@ export default handleActions({
     }
     return result
   },
-  CAMERA_FORWARD: state => {
+  MOVE_CAMERA: (state, action) => {
     return {
       ...state,
       movement: {
-        direction: new Vector3(0, 0, -1),
-        orientation: 0
-      }
-    }
-  },
-  CAMERA_BACKWARD: state => {
-    return {
-      ...state,
-      movement: {
-        direction: new Vector3(0, 0, 1),
-        orientation: 0
-      }
-    }
-  },
-  CAMERA_STRAFE_LEFT: state => {
-    return {
-      ...state,
-      movement: {
-        direction: new Vector3(-1, 0, 0),
-        orientation: 0
-      }
-    }
-  },
-  CAMERA_STRAFE_RIGHT: state => {
-    return {
-      ...state,
-      movement: {
-        direction: new Vector3(1, 0, 0),
-        orientation: 0
-      }
-    }
-  },
-  CAMERA_FLY_UP: state => {
-    console.log('flying up')
-    return {
-      ...state,
-      movement: {
-        direction: new Vector3(0, 1, 0),
-        orientation: 0
-      }
-    }
-  },
-  CAMERA_FLY_DOWN: state => {
-    return {
-      ...state,
-      movement: {
-        direction: new Vector3(0, -1, 0),
-        orientation: 0
+        direction: action.payload.direction.clone().multiplyScalar(CAMERA_STEPS),
+        orientation: null
       }
     }
   },
@@ -140,10 +114,12 @@ export default handleActions({
       }
     }
   },
-  STOP_MOVEMENT: (state) => {
+  STOP_MOVEMENT: (state, action) => {
+    console.log('STABILIZED')
     return {
       ...state,
-      movement: null
+      movement: null,
+      cameraAt: action.payload
     }
   }
 
