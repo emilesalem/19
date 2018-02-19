@@ -121,7 +121,6 @@ export default handleActions({
     }
   },
   STOP_MOVEMENT: (state, action) => {
-    console.log('STABILIZED')
     return {
       ...state,
       movement: null,

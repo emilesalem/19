@@ -6,15 +6,23 @@ import PropTypes from 'react-proptypes'
 import Blogosphere from './blogosphere/container'
 
 class Scene extends React.Component {
+  blogoSpheres (total) {
+    const spheres = []
+    for (let i = 0; i < total; i++) {
+      spheres.push(<Blogosphere key={i} position={new Vector3(i + 70 * i, 0, 0)} store={this.props.store} />)
+    }
+    return spheres
+  }
+
   render () {
     const width = window.innerWidth
     const height = window.innerHeight
 
     return (
       <scene>
-        <Camera position={new Vector3(45, 1, 0)} aspect={width / height} store={this.props.store} />
+        <Camera position={new Vector3(0, 1, 0)} aspect={width / height} store={this.props.store} />
         <ambientLight />
-        <Blogosphere position={new Vector3(0, 0, 0)} store={this.props.store} />
+        {this.blogoSpheres(1)}
       </scene>
     )
   }

@@ -29,7 +29,7 @@ function didCameraCollide (cameraMovement) {
   stepIn.multiplyScalar(steps)
   for (const collidable of collidables) {
     const checkPoint = position.clone().add(stepIn)
-    collided = collidable.containsPoint(checkPoint)
+    collided = collidable.didCollide(checkPoint)
     if (collided) {
       break
     }

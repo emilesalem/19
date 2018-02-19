@@ -1,7 +1,7 @@
 import React from 'react'
 import Canvas from '../canvas/component'
 import { connect } from 'react-redux'
-import { toggleControl, reactToKey, reactToMouse } from './index'
+import { toggleControl, reactToKey, reactToMouse, reactToWheel } from './index'
 import PropTypes from 'react-proptypes'
 
 const onKeyPress = (event, props) => {
@@ -18,10 +18,19 @@ const onMouseMove = (event, props) => {
   event.preventDefault()
 }
 
+const onMouseWheel = (event, props) => {
+  if (props.controlActive) {
+    props.reactToWheel(event)
+  }
+  event.stopPropagation()
+  event.preventDefault()
+}
+
 const App = props => (
   <div onClick={props.toggleControl}
     onKeyPress={event => onKeyPress(event, props)}
     onMouseMove={event => onMouseMove(event, props)}
+    onWheel={event => onMouseWheel(event, props)}
     tabIndex='0'>
     <Canvas store={props.store} />
   </div>
@@ -34,7 +43,8 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = {
   toggleControl,
   reactToKey,
-  reactToMouse
+  reactToMouse,
+  reactToWheel
 }
 
 App.propTypes = {
