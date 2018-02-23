@@ -5,4 +5,5 @@
   3- If we want to change any vector's coordinates to a new basis, we only need to left-multiply its components by the
      inverse of this new basis matrix.
   4- wtf is a quaterion?
+  5- a quaternion is the key to everything
 */

@@ -23,12 +23,12 @@ class Blogosphere extends React.Component {
   }
 
   pulseLights (now) {
-    if (now - this.lastPulse > 100) {
+    if (now - this.lastPulse > 50) {
       this.lastPulse = now
 
       let lightIntensity = this.state.lightIntensity
       lightIntensity += this.deltaLight
-      if (lightIntensity > 10 || lightIntensity < 1) {
+      if (lightIntensity > 15 || lightIntensity < 1) {
         this.deltaLight *= -1
       }
       this.setState({
@@ -39,8 +39,6 @@ class Blogosphere extends React.Component {
   }
 
   floorCollision (point) {
-    console.log('checking collision')
-    console.log(this.floor.boundingSphere.distanceToPoint(point))
     return this.floor.boundingSphere.distanceToPoint(point) > 0
   }
 

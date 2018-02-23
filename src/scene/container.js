@@ -4,7 +4,6 @@ import { Vector3 } from 'three'
 import Camera from './camera/container'
 import PropTypes from 'react-proptypes'
 import Blogosphere from './blogosphere/container'
-
 class Scene extends React.Component {
   blogoSpheres (total) {
     const spheres = []

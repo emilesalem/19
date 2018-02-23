@@ -29,8 +29,10 @@
     "start": "parcel index.html"
   },
   "dependencies": {
+    "firebase": "^4.10.1",
     "react": "15",
     "react-dom": "15",
+    "react-firebaseui": "^1.1.8",
     "react-proptypes": "^1.0.0",
     "react-redux": "^5.0.6",
     "react-three-renderer": "^3.2.3",
