@@ -3,8 +3,9 @@ import Canvas from '../canvas/component'
 import { connect } from 'react-redux'
 import { toggleControl, reactToKey, reactToMouse, reactToWheel, signIn } from './index'
 import PropTypes from 'react-proptypes'
-import firebase from 'firebase'
 import StyledFirebaseAuth from 'react-firebaseui/StyledFirebaseAuth'
+import firebase from 'firebase'
+import 'firebase/firestore'
 
 class App extends React.Component {
   constructor (props) {
@@ -22,18 +23,34 @@ class App extends React.Component {
       signInFlow: 'popup',
       // We will display Google and Facebook as auth providers.
       signInOptions: [
-        firebase.auth.GoogleAuthProvider.PROVIDER_ID,
-        firebase.auth.FacebookAuthProvider.PROVIDER_ID
+        firebase.auth.GoogleAuthProvider.PROVIDER_ID
       ],
       callbacks: {
-        // Avoid redirects after sign-in.
-        signInSuccess: () => false
+        signInSuccess: () => {
+          firebase
+            .firestore()
+            .collection('test')
+            .get()
+            .then(props.signIn)
+            .catch(() => {
+              firebase
+                .auth()
+                .signOut()
+                .then(function () {})
+                .catch(console.error)
+              firebase
+                .auth()
+                .currentUser
+                .delete()
+                .then(() => console.log('you been DEREZZED'))
+                .catch(console.error)
+              return false
+            })
+        }
       }
     }
   }
-  componentDidMount () {
-    firebase.auth().onAuthStateChanged(user => this.props.signIn(!!user))
-  }
+
   onKeyPress = (event, props) => {
     if (props.controlActive) {
       props.reactToKey(event.key)
@@ -57,7 +74,8 @@ class App extends React.Component {
   render () {
     if (!this.props.signedIn) {
       return <div backgroundColor='black'>
-        <StyledFirebaseAuth uiConfig={this.uiConfig} firebaseAuth={firebase.auth()} />
+        <StyledFirebaseAuth uiCallback={ui => { ui.disableAutoSignIn() }}
+          uiConfig={this.uiConfig} firebaseAuth={firebase.auth()} />
       </div>
     } else {
       return <div onClick={this.props.toggleControl}

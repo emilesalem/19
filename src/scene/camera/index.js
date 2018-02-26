@@ -30,7 +30,7 @@ export const stopMoving = createAction(STOP_MOVEMENT)
 export const keyEpic = (action$, store) => action$.ofType(REACT_TO_KEY)
   .map(action => {
     const keyPressed = action.payload
-    let result = null
+    let result = {payload:null, type:'NOOP'}
     switch (keyPressed) {
       case 'w':
         result = tryMoving({

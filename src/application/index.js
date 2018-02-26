@@ -1,4 +1,5 @@
 import { createAction, handleActions } from 'redux-actions'
+import firebase from 'firebase'
 
 export const REACT_TO_KEY = 'REACT_TO_KEY'
 export const REACT_TO_MOUSE = 'REACT_TO_MOUSE'
@@ -18,15 +19,21 @@ const defaultState = {
   signedIn: false
 }
 
-export const epic = action$ => action$.ofType(REACT_TO_KEY).map(action => action.payload === 'ESC' ? signOut() : null)
+export const appEpic = action$ => action$.ofType(REACT_TO_KEY).map(action => {
+  return action.payload === 'ESC' ? signOut(null) : { payload: null, type: 'NOOP' }
+})
 
 export default handleActions({
-  SIGN_IN: (state, action) => ({
-    ...state,
-    signedIn: true
-  }),
-  SIGN_OUT: (state, action) => ({
-    ...state,
-    signedIn: false
-  })
+  SIGN_IN: (state, action) => {
+    return { ...state,
+      signedIn: true
+    }
+  },
+  SIGN_OUT: (state, action) => {
+    firebase.auth().signOut()
+    return {
+      ...state,
+      signedIn: false
+    }
+  }
 }, defaultState)
