@@ -32,7 +32,8 @@ class App extends React.Component {
             .collection('test')
             .get()
             .then(props.signIn)
-            .catch(() => {
+            .catch(err => {
+              console.log('ERROR TRYING AUTHORIZED ACTION', err)
               firebase
                 .auth()
                 .signOut()
@@ -72,20 +73,20 @@ class App extends React.Component {
   }
 
   render () {
-    if (!this.props.signedIn) {
+    /* if (!this.props.signedIn) {
       return <div backgroundColor='black'>
         <StyledFirebaseAuth uiCallback={ui => { ui.disableAutoSignIn() }}
           uiConfig={this.uiConfig} firebaseAuth={firebase.auth()} />
       </div>
-    } else {
-      return <div onClick={this.props.toggleControl}
-        onKeyPress={event => this.onKeyPress(event, this.props)}
-        onMouseMove={event => this.onMouseMove(event, this.props)}
-        onWheel={event => this.onMouseWheel(event, this.props)}
-        tabIndex='0'>
-        <Canvas store={this.props.store} />
-      </div>
-    }
+    } else { */
+    return <div id='mainWindow' onClick={this.props.toggleControl}
+      onKeyPress={event => this.onKeyPress(event, this.props)}
+      onMouseMove={event => this.onMouseMove(event, this.props)}
+      onWheel={event => this.onMouseWheel(event, this.props)}
+      tabIndex='0'>
+      <Canvas store={this.props.store} />
+    </div>
+    // }
   }
 }
 

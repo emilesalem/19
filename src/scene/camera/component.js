@@ -34,6 +34,7 @@ export default class Camera extends React.Component {
         position: this.position,
         transform: this.mainCamera.quaternion
       })
+      this.props.motionCap(this.mainCamera)
     }
   }
 
@@ -61,8 +62,6 @@ export default class Camera extends React.Component {
         name='camera'
         fov={75}
         aspect={aspect}
-        near={0.1}
-        far={1000}
         lookAt={this.lookAt}
         position={this.position}
       />
@@ -71,6 +70,7 @@ export default class Camera extends React.Component {
 }
 
 Camera.propTypes = {
+  motionCap: PropTypes.object,
   position: PropTypes.object,
   movement: PropTypes.object,
   aspect: PropTypes.number,

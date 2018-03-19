@@ -67,7 +67,7 @@ class Blogosphere extends React.Component {
         <edgesGeometry geometry={new THREE.SphereGeometry(radius + 1, widthSegments, heightSegments)} />
         <lineBasicMaterial lights color={0x111144} />
       </lineSegments>
-      {this.lights(new THREE.Sphere(position, radius - 0.7), rotation)}
+      {this.lights(new THREE.Sphere(position, Math.floor(radius * 0.99)), rotation)}
       <ambientLight intensity={0.3} />
     </group>
   }
@@ -87,7 +87,7 @@ class Blogosphere extends React.Component {
         const position4 = sphere.clampPoint(new THREE.Vector3(x, -(Math.sqrt(Math.pow(sphere.radius, 2) - Math.pow(x, 2))), 0))
         const position5 = sphere.clampPoint(new THREE.Vector3(0, Math.sqrt(Math.pow(sphere.radius, 2) - Math.pow(x, 2)), x))
         const position6 = sphere.clampPoint(new THREE.Vector3(0, -(Math.sqrt(Math.pow(sphere.radius, 2) - Math.pow(x, 2))), x))
-        lights.push(<pointLight key={x + i + 1} visible color={0xc4c4ff}position={position3.applyQuaternion(rotation)} intensity={this.state.lightIntensity} decay={2} distance={sphere.radius} />)
+        lights.push(<pointLight key={x + i + 1} visible={false} color={0xc4c4ff}position={position3.applyQuaternion(rotation)} intensity={this.state.lightIntensity} decay={2} distance={sphere.radius} />)
         lights.push(<pointLight key={x + i + 2}visible color={0xc4c4ff}position={position4.applyQuaternion(rotation)} intensity={this.state.lightIntensity} decay={2} distance={sphere.radius} />)
         lights.push(<pointLight key={x + i + 3} visible color={0xc4c4ff}position={position6.applyQuaternion(rotation)} intensity={this.state.lightIntensity} decay={2} distance={sphere.radius} />)
         lights.push(<pointLight key={x + i + 4}visible color={0xc4c4ff}position={position5.applyQuaternion(rotation)} intensity={this.state.lightIntensity} decay={2} distance={sphere.radius} />)
