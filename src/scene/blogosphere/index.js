@@ -11,7 +11,7 @@ export const rotate = createAction(ROTATE)
 
 const defaultState = {
   rotation: new Quaternion(),
-  radius: 80,
+  radius: 1800,
   widthSegments: 32,
   heightSegments: 32
 }
