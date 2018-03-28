@@ -1,15 +1,12 @@
 import { createAction, handleActions } from 'redux-actions'
-import { toggleControl, REACT_TO_KEY } from '../../application'
+import { toggleControl, REACT_TO_KEY, REACT_TO_MOUSE } from '../../application'
 import { tryMoving } from '../../scene'
-import { Vector3, Vector2 } from 'three'
+import { Vector3, Vector2, PerspectiveCamera } from 'three'
 
 const defaultState = {
   controlActive: false,
   movement: null,
-  cameraAt: {
-    position: null,
-    transform: null
-  }
+  camera: new PerspectiveCamera(75, window.width / window.height)
 }
 
 const FORWARD = new Vector3(0, 0, -1)
@@ -23,11 +20,24 @@ export const CAMERA_STEPS = 0.5
 
 export const MOVE_CAMERA = 'MOVE_CAMERA'
 export const STOP_MOVEMENT = 'STOP_MOVEMENT'
+export const CAPTURE_CAMERA_STATE = 'CAPTURE_CAMERA_STATE'
 
 export const moveCamera = createAction(MOVE_CAMERA)
 export const stopMoving = createAction(STOP_MOVEMENT)
 
-export const keyEpic = (action$, store) => action$.ofType(REACT_TO_KEY)
+// FOR CSS3D
+export const captureCamera = createAction(CAPTURE_CAMERA_STATE)
+
+export const cameraEpic = (action$, store) => action$.ofType(REACT_TO_MOUSE)
+  .map(action => {
+    const deltaX = action.payload.clientX - store.getState().camera.previousX || 0
+    const deltaY = action.payload.clientY - store.getState().camera.previousY || 0
+    return moveCamera({
+      orientation: new Vector2(deltaX, deltaY)
+    })
+  })
+
+export const keyEpic = action$ => action$.ofType(REACT_TO_KEY)
   .map(action => {
     const keyPressed = action.payload
     let result = { payload: null, type: 'NOOP' }
@@ -35,44 +45,32 @@ export const keyEpic = (action$, store) => action$.ofType(REACT_TO_KEY)
       case 'w':
         result = tryMoving({
           steps: CAMERA_STEPS,
-          direction: FORWARD,
-          position: store.getState().camera.cameraAt.position,
-          transform: store.getState().camera.cameraAt.transform })
+          direction: FORWARD })
         break
       case 's':
         result = tryMoving({
           steps: CAMERA_STEPS,
-          direction: BACKWARD,
-          position: store.getState().camera.cameraAt.position,
-          transform: store.getState().camera.cameraAt.transform })
+          direction: BACKWARD })
         break
       case 'a':
         result = tryMoving({
           steps: CAMERA_STEPS,
-          direction: LEFT,
-          position: store.getState().camera.cameraAt.position,
-          transform: store.getState().camera.cameraAt.transform })
+          direction: LEFT })
         break
       case 'd':
         result = tryMoving({
           steps: CAMERA_STEPS,
-          direction: RIGHT,
-          position: store.getState().camera.cameraAt.position,
-          transform: store.getState().camera.cameraAt.transform })
+          direction: RIGHT })
         break
       case 'Shift':
         result = tryMoving({
           steps: CAMERA_STEPS,
-          direction: UP,
-          position: store.getState().camera.cameraAt.position,
-          transform: store.getState().camera.cameraAt.transform })
+          direction: UP })
         break
       case 'Ctrl':
         result = tryMoving({
           steps: CAMERA_STEPS,
-          direction: DOWN,
-          position: store.getState().camera.cameraAt.position,
-          transform: store.getState().camera.cameraAt.transform })
+          direction: DOWN })
         break
       case 'Escape':
         result = toggleControl()
@@ -96,36 +94,37 @@ export default handleActions({
     return result
   },
   MOVE_CAMERA: (state, action) => {
+    const movement = action.payload
+    movement.direction && movement.direction.clone().multiplyScalar(CAMERA_STEPS)
     return {
       ...state,
-      movement: {
-        direction: action.payload.direction.clone().multiplyScalar(CAMERA_STEPS),
-        orientation: null
-      }
+      movement
     }
   },
   REACT_TO_KEY: (state, action) => {
     return state
   },
   REACT_TO_MOUSE: (state, action) => {
-    const deltaX = action.payload.clientX - state.mouseX
-    const deltaY = action.payload.clientY - state.mouseY
+    const previousX = state.mouseX
+    const previousY = state.mouseY
     return {
       ...state,
+      previousX,
+      previousY,
       mouseX: action.payload.clientX,
-      mouseY: action.payload.clientY,
-      movement: {
-        direction: null,
-        orientation: new Vector2(deltaX, deltaY)
-      }
+      mouseY: action.payload.clientY
     }
   },
   STOP_MOVEMENT: (state, action) => {
     return {
       ...state,
-      movement: null,
-      cameraAt: action.payload || state.cameraAt
+      movement: null
+    }
+  },
+  CAPTURE_CAMERA_STATE: (state, action) => {
+    return {
+      ...state,
+      camera: action.payload.clone()
     }
   }
-
 }, defaultState)

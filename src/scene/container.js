@@ -1,10 +1,11 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { Vector3, Quaternion } from 'three'
+import Css3dContainer from './css3d/Css3dContainer'
 import Camera from './camera/container'
 import PropTypes from 'react-proptypes'
 import Blogosphere from './blogosphere/container'
-import HTML3D from './html3d/HTML3D'
+import HTML3D from './css3d/HTML3D'
 
 class Scene extends React.Component {
   blogoSpheres (total) {
@@ -18,13 +19,13 @@ class Scene extends React.Component {
   render () {
     const width = window.innerWidth
     const height = window.innerHeight
-    const camera2 = this.props.mainCameraState
     return (
       <scene>
         <Camera position={new Vector3(0, 1, 0)} aspect={width / height} store={this.props.store} />
         <ambientLight />
         {this.blogoSpheres(1)}
-        <HTML3D camera={camera2} position={new Vector3(0, 20, -1800)} quaternion={new Quaternion()}>
+        <Css3dContainer containerId='mainWindow' store={this.props.store} />
+        <HTML3D position={new Vector3(0, 20, -1800)} quaternion={this.props.blogoRotation} store={this.props.store}>
           <div>
             <iframe width='100' height='80'
               src='https://www.youtube.com/embed/7_JUBgPHYmY' frameBorder='1' allow='autoplay; encrypted-media' />
@@ -38,13 +39,13 @@ class Scene extends React.Component {
 
 Scene.propTypes = {
   store: PropTypes.object,
-  mainCameraState: PropTypes.object
+  blogoRotation: PropTypes.instanceOf(Quaternion)
 }
 
 function mapStateToProps (state, ownProps) {
   return {
     store: ownProps.store,
-    mainCameraState: state.scene.camera
+    blogoRotation: state.blogosphere.rotation
   }
 }
 

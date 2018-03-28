@@ -62,7 +62,15 @@ Lets find another way to listen to user inputs.
 
 
 # 13/01/2018 - DAY 4
- - freshening up on linear algebra for camera strafing. [wtf is a quaternion?](https://en.wikipedia.org/wiki/Quaternion)
+ - freshening up on linear algebra for camera strafing.(https://en.wikipedia.org/wiki/Quaternion)
+  1- Any finite set of vectors can be represented by a matrix with each column storing the coordinates of the vectors.
+  2- A 3D basis is a set of 3 vectors that serves as space coordinates reference point.
+  (ex: the standard basis is v1(1,0,0), v2(0,1,0), v3(0,0,1))
+  3- If we want to change any vector's coordinates to a new basis, we only need to left-multiply its components by the
+     inverse of this new basis matrix.
+  4- wtf is a quaterion?
+  5- a quaternion is the key to everything
+
 
 # 14/01/2018 - DAY 5
  - Discovered that Chrome on linux wont capture onMouseMove events, switched to Firefox [see react issue #11984](https://github.com/facebook/react/issues/11984)

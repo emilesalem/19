@@ -30,20 +30,13 @@ export default class Camera extends React.Component {
 
   componentDidUpdate () {
     if (this.props.movement) {
-      this.props.stabilize({
-        position: this.position,
-        transform: this.mainCamera.quaternion
-      })
       this.props.motionCap(this.mainCamera)
     }
   }
 
   componentDidMount () {
     this.adjustCamera({ direction: new Vector3(0, 0, 1) })
-    this.props.stabilize({
-      position: this.position,
-      transform: this.mainCamera.quaternion
-    })
+    this.props.motionCap(this.mainCamera)
   }
 
   render () {
@@ -70,9 +63,8 @@ export default class Camera extends React.Component {
 }
 
 Camera.propTypes = {
-  motionCap: PropTypes.object,
+  motionCap: PropTypes.func,
   position: PropTypes.object,
   movement: PropTypes.object,
-  aspect: PropTypes.number,
-  stabilize: PropTypes.func
+  aspect: PropTypes.number
 }
