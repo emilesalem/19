@@ -15,10 +15,10 @@ class Blogosphere extends React.Component {
   }
 
   componentDidMount () {
-    this.floorGeo.computeBoundingSphere()
-    this.floor.boundingSphere = this.floorGeo.boundingSphere
-    this.floor.didCollide = this.floorCollision.bind(this)
-    this.props.registerColidable(this.floor)
+    // this.floorGeo.computeBoundingSphere()
+    // this.floor.boundingSphere = this.floorGeo.boundingSphere
+    // this.floor.didCollide = this.floorCollision.bind(this)
+    // this.props.registerColidable(this.floor)
     requestAnimationFrame(now => this.pulseLights(now))
   }
 
@@ -59,10 +59,10 @@ class Blogosphere extends React.Component {
         <meshPhongMaterial transparent opacity={1 - this.state.lightIntensity / 30} specular={0xffffff}
           shininess={400} emissiveIntensity={this.state.lightIntensity / 10} side={THREE.BackSide} color={0x000022} />
       </mesh>
-      <mesh ref={floor => { this.floor = floor }} position={floorPosition} >
+      {/* <mesh ref={floor => { this.floor = floor }} position={floorPosition} >
         <cylinderGeometry ref={floorGeo => { this.floorGeo = floorGeo }}radiusTop={15} radiusBottom={5} height={2}radialSegments={widthSegments} heightSegments={heightSegments} />
         <meshPhongMaterial shininess={200} emissiveIntensity={this.state.lightIntensity / 10} color={0x000022} />
-      </mesh>
+      </mesh> */}
       <lineSegments position={position} quaternion={rotation}>
         <edgesGeometry geometry={new THREE.SphereGeometry(radius + 1, widthSegments, heightSegments)} />
         <lineBasicMaterial lights color={0x111144} />

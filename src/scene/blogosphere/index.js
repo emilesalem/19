@@ -29,4 +29,4 @@ export default handleActions({
 }, defaultState)
 
 export const rollEpic = action$ => action$.ofType(REACT_TO_WHEEL)
-  .map(action => rotate(action.payload.deltaY > 0 ? 10 * Math.PI / 180 : -10 * Math.PI / 180))
+  .map(action => rotate(action.payload.deltaY > 0 ? 5 * Math.PI / 180 : -5 * Math.PI / 180))

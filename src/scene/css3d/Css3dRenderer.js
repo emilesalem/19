@@ -37,7 +37,6 @@ export default class CSS3DRenderer {
 
   renderObject (object) {
     if (object instanceof Css3dObject) {
-      console.log(object.matrixWorld)
       const style = `${getObjectCSSMatrix(object.matrixWorld)}`
       const element = object.element
       const cachedStyle = this.cache.objects[ object.id ]

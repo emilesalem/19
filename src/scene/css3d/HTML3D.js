@@ -10,6 +10,8 @@ class HTML3D extends React.Component {
   constructor (props) {
     super(props)
     this.css3dObject = this._createCSS3DObject()
+    this.originalPosition = this.css3dObject.position.clone()
+    this.originalRotation = this.css3dObject.rotation.clone()
   }
 
   _createCSS3DObject () {
@@ -17,13 +19,12 @@ class HTML3D extends React.Component {
     ReactDOM.render(this.props.children, this.HTMLElement)
     const result = new CSS3DObject(this.HTMLElement)
     result.position.copy(this.props.position)
-    result.quaternion.copy(this.props.quaternion)
     return result
   }
 
   componentDidUpdate () {
-    this.css3dObject.applyQuaternion(this.props.quaternion)
-    this.css3dObject.position.set(this.props.position)
+    this.css3dObject.position.copy(this.originalPosition.clone().applyQuaternion(this.props.quaternion))
+    this.css3dObject.rotation.copy(this.originalRotation.clone().setFromQuaternion(this.props.quaternion))
     this.props.render()
   }
   componentDidMount () {

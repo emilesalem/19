@@ -27,7 +27,7 @@ class Scene extends React.Component {
         <Css3dContainer containerId='mainWindow' store={this.props.store} />
         <HTML3D position={new Vector3(0, 20, -1800)} quaternion={this.props.blogoRotation} store={this.props.store}>
           <div>
-            <iframe width='100' height='80'
+            <iframe width='400' height='320'
               src='https://www.youtube.com/embed/7_JUBgPHYmY' frameBorder='1' allow='autoplay; encrypted-media' />
             <p style={{ color: 'white' }}>This is my TEST post</p>
           </div>

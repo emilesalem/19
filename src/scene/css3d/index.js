@@ -23,9 +23,10 @@ export default handleActions({
     }
   },
   RENDER: (state, action) => {
-    console.log('RENDER!')
     const newScene = new Scene()
-    state.html3dObjects.forEach(html3d => { newScene.add(html3d); console.log(html3d.quaternion) })
+    state.html3dObjects.forEach(html3d => {
+      newScene.add(html3d)
+    })
     return {
       ...state,
       scene: newScene
