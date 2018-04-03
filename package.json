@@ -29,6 +29,7 @@
     "start": "parcel index.html"
   },
   "dependencies": {
+    "dompurify": "^1.0.3",
     "firebase": "^4.10.1",
     "react": "15",
     "react-dom": "15",

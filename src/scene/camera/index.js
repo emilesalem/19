@@ -16,7 +16,7 @@ const RIGHT = new Vector3(1, 0, 0)
 const UP = new Vector3(0, 1, 0)
 const DOWN = new Vector3(0, -1, 0)
 
-export const CAMERA_STEPS = 0.5
+export const CAMERA_STEPS = 50
 
 export const MOVE_CAMERA = 'MOVE_CAMERA'
 export const STOP_MOVEMENT = 'STOP_MOVEMENT'
@@ -95,7 +95,9 @@ export default handleActions({
   },
   MOVE_CAMERA: (state, action) => {
     const movement = action.payload
-    movement.direction && movement.direction.clone().multiplyScalar(CAMERA_STEPS)
+    if (movement.direction) {
+      movement.direction = movement.direction.clone().multiplyScalar(CAMERA_STEPS)
+    }
     return {
       ...state,
       movement

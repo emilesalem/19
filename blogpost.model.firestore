@@ -1,0 +1,16 @@
+collection: blogs
+  document: blog
+    users (array) 
+    form (string)
+    collection: blogPosts
+      document: blogPost
+        content (string)
+        author (user document name)
+        date (date)
+    collection: users
+      document: user
+        name
+        email
+        online
+        coordinates
+

@@ -57,6 +57,7 @@ export default class Camera extends React.Component {
         aspect={aspect}
         lookAt={this.lookAt}
         position={this.position}
+        far={5000}
       />
     )
   }
