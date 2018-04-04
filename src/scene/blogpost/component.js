@@ -22,7 +22,8 @@ export default class Blogpost extends React.Component {
       TODO: Add more webGL stuff, like a frame
        */
     return <HTML3D position={position} rotation={rotation} store={store}>
-      <div dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(content, { USE_PROFILES: { html: true } }) }} />
+      {/* <div dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(content, { USE_PROFILES: { html: true } }) }} /> */}
+      <div dangerouslySetInnerHTML={{ __html: content }} />
     </HTML3D>
   }
 }

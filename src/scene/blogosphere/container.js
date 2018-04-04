@@ -3,8 +3,10 @@ import PropTypes from 'react-proptypes'
 import { connect } from 'react-redux'
 import * as THREE from 'three'
 import { addColidable } from '../index'
-import Blogpost, { WIDTH, HEIGHT } from '../blogpost/component'
+import Blogpost, { WIDTH as postWidth, HEIGHT as postHeight } from '../blogpost/component'
 
+const COLUMN_INTERSPACE = 300
+const ROW_INTERSPACE = 50
 class Blogosphere extends React.Component {
   constructor (props) {
     super(props)
@@ -91,41 +93,34 @@ class Blogosphere extends React.Component {
   }
   positionBlogPosts () {
     const blogposts = this.props.blogposts
-    const postWidth = WIDTH
-    const postHeigth = HEIGHT
-    const columnInterspace = 300
-    const rowInterspace = 50
-    const rowRotationDelta = (postHeigth + rowInterspace) / this.props.radius
-    let cumulColRotation = 0
-    let cumulRowRotation = 0
+    let phi = 0
+    let theta = 0
     let currentRow = 0
     let columnIndex = 0
     let rowIndex = 0
     const r = this.props.radius
+    const thetaDelta = (postHeight + ROW_INTERSPACE) / r
     const result = []
     let index = 0
-    let originalPosition = new THREE.Vector3(0, 0, r)
+    const originalPosition = new THREE.Vector3(0, 0, r)
     for (const post of blogposts) {
-      const rPrime = Math.cos(Math.abs(cumulRowRotation)) * r
-      const maxPerRow = 2 * Math.PI * rPrime / (postWidth + columnInterspace)
-      cumulColRotation = columnIndex++ * (postWidth + columnInterspace) / rPrime
-      if (columnIndex > maxPerRow) {
+      const rPrime = Math.cos(Math.abs(theta)) * r
+      const phiDelta = (postWidth + COLUMN_INTERSPACE) / rPrime
+      phi = columnIndex++ * phiDelta
+      if (phi > 2 * Math.PI - phiDelta + COLUMN_INTERSPACE / rPrime * 0.5) {
         rowIndex++
-        originalPosition = new THREE.Vector3(0, 0, rPrime)
         currentRow = (rowIndex % 2 === 0 && rowIndex > 0) ? -currentRow : Math.abs(currentRow) + 1
-        cumulRowRotation = rowRotationDelta * currentRow
+        theta = thetaDelta * currentRow
         columnIndex = 0
-        cumulColRotation = 0
+        phi = 0
       }
-      const rotation = new THREE.Euler().set(cumulRowRotation, cumulColRotation, 0, 'YXZ')
-      result.push(<Blogpost key={index++} position={originalPosition.clone().applyEuler(rotation)}
-        rotation={rotation} quaternion={this.props.rotation} content={post} store={this.props.store} />)
-      // result.push({
-      //   key: index++,
-      //   position: originalPosition.clone().applyEuler(rotation),
-      //   rotation,
-      //   content: post
-      // })
+      if (Math.abs(theta) > Math.PI / 2 - thetaDelta) {
+        console.log('blogosphere is full, this post should be sent to the post queue')
+      } else {
+        const rotation = new THREE.Euler().set(theta, phi, 0, 'YXZ')
+        result.push(<Blogpost key={index++} position={originalPosition.clone().applyEuler(rotation)}
+          rotation={rotation} quaternion={this.props.rotation} content={post} store={this.props.store} />)
+      }
     }
     return result
   }

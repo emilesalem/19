@@ -1,7 +1,8 @@
 import React from 'react'
-import Canvas from '../canvas/component'
+import React3 from 'react-three-renderer'
 import { connect } from 'react-redux'
 import { toggleControl, reactToKey, reactToMouse, reactToWheel, signIn } from './index'
+import Scene from '../scene/component'
 import PropTypes from 'react-proptypes'
 import StyledFirebaseAuth from 'react-firebaseui/StyledFirebaseAuth'
 import firebase from 'firebase'
@@ -84,7 +85,14 @@ class App extends React.Component {
       onMouseMove={event => this.onMouseMove(event, this.props)}
       onWheel={event => this.onMouseWheel(event, this.props)}
       tabIndex='0'>
-      <Canvas store={this.props.store} />
+      <React3
+        mainCamera='camera'
+        width={window.innerWidth}
+        height={window.innerHeight}
+        shadowMapEnabled
+      >
+        <Scene store={this.props.store} />
+      </React3>
     </div>
     // }
   }
