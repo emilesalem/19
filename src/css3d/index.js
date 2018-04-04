@@ -23,13 +23,8 @@ export default handleActions({
     }
   },
   RENDER: (state, action) => {
-    const newScene = new Scene()
-    state.html3dObjects.forEach(html3d => {
-      newScene.add(html3d)
-    })
     return {
-      ...state,
-      scene: newScene
+      ...state
     }
   }
 }, defaultState)

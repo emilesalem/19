@@ -111,7 +111,7 @@ class Blogosphere extends React.Component {
         rowIndex++
         currentRow = (rowIndex % 2 === 0 && rowIndex > 0) ? -currentRow : Math.abs(currentRow) + 1
         theta = thetaDelta * currentRow
-        columnIndex = 0
+        columnIndex = 1
         phi = 0
       }
       if (Math.abs(theta) > Math.PI / 2 - thetaDelta) {
