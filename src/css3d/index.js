@@ -24,7 +24,8 @@ export default handleActions({
   },
   RENDER: (state, action) => {
     return {
-      ...state
+      ...state,
+      html3dObjects: [].concat(state.html3dObjects)
     }
   }
 }, defaultState)

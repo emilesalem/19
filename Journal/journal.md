@@ -120,3 +120,6 @@ to compute the elements model view matrix, which is in effect the elements trans
 Of course since the DOM elements are placed over the webGL canvas, a limitation to this solution is that no webGL object can be placed in front of the DOM elements,
 as the DOM elements will always appear over them. Fortunately it doesnt apply to the Blogosphere. Splendid.
 
+# 02/04/2018 DAY 12
+ - Everything seems to be in place. Blogosphere is almost complete on the render side. (of course it can be bettered, but basis is complete)
+ - Starting on blogpost creation

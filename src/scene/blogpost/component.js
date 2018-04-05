@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'react-proptypes'
 import HTML3D from '../../css3d/HTML3D'
-import { Vector3, Quaternion } from 'three'
+import { Vector3, Quaternion, Euler } from 'three'
 import DOMPurify from 'dompurify'
 
 export default class Blogpost extends React.Component {
@@ -16,11 +16,16 @@ export default class Blogpost extends React.Component {
       position,
       rotation,
       content,
-      store
+      store,
+      quaternion
     } = this.props
     /*
       TODO: Add more webGL stuff, like a frame
        */
+    position.copy(this.originalPosition.clone().applyQuaternion(quaternion))
+    const originalQuaternion = new Quaternion().setFromEuler(this.originalRotation)
+    const compoundRotation = originalQuaternion.multiply(quaternion)
+    rotation.copy(new Euler().setFromQuaternion(compoundRotation))
     return <HTML3D position={position} rotation={rotation} store={store}>
       {/* <div dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(content, { USE_PROFILES: { html: true } }) }} /> */}
       <div dangerouslySetInnerHTML={{ __html: content }} />
@@ -32,7 +37,8 @@ Blogpost.propTypes = {
   position: PropTypes.instanceOf(Vector3),
   rotation: PropTypes.instanceOf(Quaternion),
   content: PropTypes.string,
-  store: PropTypes.object
+  store: PropTypes.object,
+  quaternion: PropTypes.instanceOf(Quaternion)
 }
 
 export const WIDTH = 320

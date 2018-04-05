@@ -89,9 +89,7 @@ function epsilon (value) {
 flips y coordinates so 0 is on top
  */
 function getObjectCSSMatrix (matrix) {
-  const elements = matrix.elements;
-  [4, 5, 6, 7].forEach(i => { elements[i] = -elements[i] })
-  return `translate(-50%,-50%)  matrix3d(${elements.map(epsilon).join()}) rotateY(180deg)`
+  return `translate(-50%,-50%)  matrix3d(${matrix.elements.map(epsilon).join()}) rotateX(180deg) rotateY(180deg)`
 }
 
 /*

@@ -33,7 +33,7 @@ class Blogosphere extends React.Component {
 
       let lightIntensity = this.state.lightIntensity
       lightIntensity += this.deltaLight
-      if (lightIntensity > 15 || lightIntensity < 1) {
+      if (lightIntensity > 10 || lightIntensity < 1) {
         this.deltaLight *= -1
       }
       this.setState({
@@ -81,16 +81,6 @@ class Blogosphere extends React.Component {
     </group>
   }
 
-  renderBlogposts () {
-    return this.blogposts.map(blogpost => {
-      const originalRotation = new THREE.Quaternion().setFromEuler(blogpost.rotation)
-      const compoundRotation = this.props.rotation.clone().multiply(originalRotation)
-      const position = blogpost.position.clone().applyQuaternion(compoundRotation)
-      const rotation = blogpost.rotation.clone().setFromQuaternion(compoundRotation)
-      return <Blogpost key={blogpost.key} position={position}
-        rotation={rotation} content={blogpost.content} store={this.props.store} />
-    })
-  }
   positionBlogPosts () {
     const blogposts = this.props.blogposts
     let phi = 0
@@ -106,8 +96,9 @@ class Blogosphere extends React.Component {
     for (const post of blogposts) {
       const rPrime = Math.cos(Math.abs(theta)) * r
       const phiDelta = (postWidth + COLUMN_INTERSPACE) / rPrime
-      phi = columnIndex++ * phiDelta
-      if (phi > 2 * Math.PI - phiDelta + COLUMN_INTERSPACE / rPrime * 0.5) {
+      const phiDeltaAdjusted = 2 * Math.PI / Math.floor(2 * Math.PI / phiDelta)
+      phi = columnIndex++ * phiDeltaAdjusted
+      if (phi >= 2 * Math.PI) {
         rowIndex++
         currentRow = (rowIndex % 2 === 0 && rowIndex > 0) ? -currentRow : Math.abs(currentRow) + 1
         theta = thetaDelta * currentRow
@@ -115,7 +106,7 @@ class Blogosphere extends React.Component {
         phi = 0
       }
       if (Math.abs(theta) > Math.PI / 2 - thetaDelta) {
-        console.log('blogosphere is full, this post should be sent to the post queue')
+        // TODO: blogosphere is full, send these posts to the queue
       } else {
         const rotation = new THREE.Euler().set(theta, phi, 0, 'YXZ')
         result.push(<Blogpost key={index++} position={originalPosition.clone().applyEuler(rotation)}
