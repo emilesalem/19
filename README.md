@@ -1,4 +1,4 @@
-# 19 Bernard
+# 19
 
 ## Requirements
 We want to present the user with a 3D blog. 
